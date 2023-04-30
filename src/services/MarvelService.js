@@ -4,7 +4,8 @@ const useMarvelService = () => {
 	const {
 		loading,
 		request,
-		err
+		err,
+		clearError
 	} = useHttp()
 
 	const _apiKey = "apikey=2871e0d7f3b0d714f363b4a594559b78";
@@ -41,7 +42,8 @@ const useMarvelService = () => {
 		loading,
 		err,
 		getAllCharacters,
-		getCharacter
+		getCharacter,
+		clearError
 	}
 }
 
