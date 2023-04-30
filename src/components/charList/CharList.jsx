@@ -1,21 +1,19 @@
 import './charList.scss';
 import { useEffect, useRef, useState } from 'react';
-import MarvelService from '../../services/MarvelService';
+import useMarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const CharList = ({ onCharSelected }) => {
 	const [charList, setCharList] = useState([]);
-	const [loading, setLoading] = useState(true);
-	const [err, setErr] = useState(false);
 	const [newItemLoading, setNewItemLoading] = useState(false);
 	const [offset, setOffset] = useState(210);
 	const [charEnded, setCharEnded] = useState(false);
 
-	const marvelService = new MarvelService();
+	const { loading, err, getAllCharacters } = useMarvelService();
 
 	useEffect(() => {
-		onRequest();
+		onRequest(offset, true);
 	}, []);
 
 	const onCharListLoaded = (newCharList) => {
@@ -24,27 +22,14 @@ const CharList = ({ onCharSelected }) => {
 			ended = true;
 		}
 		setCharList((charList) => [...charList, ...newCharList]);
-		setLoading(false);
 		setNewItemLoading((newItemLoading) => false);
 		setOffset((offset) => offset + 9);
 		setCharEnded((charEnded) => ended);
 	};
 
-	const onError = () => {
-		setLoading(false);
-		setErr(true);
-	};
-
-	const onRequest = (offset) => {
-		onCharListLoading();
-		marvelService
-			.getAllCharacters(offset)
-			.then(onCharListLoaded)
-			.catch(onError);
-	};
-
-	const onCharListLoading = () => {
-		setNewItemLoading(true);
+	const onRequest = (offset, initial) => {
+		initial ? setNewItemLoading(false) : setNewItemLoading(true);
+		getAllCharacters(offset).then(onCharListLoaded);
 	};
 
 	const itemRefs = useRef([]);
@@ -95,14 +80,13 @@ const CharList = ({ onCharSelected }) => {
 	const items = renderItems(charList);
 
 	const errorMessage = err ? <ErrorMessage /> : null;
-	const spinner = loading ? <Spinner /> : null;
-	const content = !(loading || err) ? items : null;
+	const spinner = loading && !newItemLoading ? <Spinner /> : null;
 
 	return (
 		<div className='char__list'>
 			{errorMessage}
 			{spinner}
-			{content}
+			{items}
 			<button
 				className='button button__main button__long'
 				disabled={newItemLoading}
