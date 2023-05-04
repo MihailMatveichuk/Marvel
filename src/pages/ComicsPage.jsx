@@ -11,7 +11,7 @@ const ComicsPage = () => {
 				<ComicsList />
 			</ErrorBoundary>
 		</div>
-	);
+	); 
 };
 
 export default ComicsPage;
