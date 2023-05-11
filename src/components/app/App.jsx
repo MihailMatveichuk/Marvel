@@ -15,14 +15,10 @@ const App = () => {
         <main>
           <Suspense fallback={<Spinner />}>
             <Routes>
-              <Route exact path='/' element={<MainPage />} />
-              <Route exact path='/comics' element={<ComicsPage />} />
-              <Route
-                exact
-                path='/comics/:comicId'
-                element={<SingleComicsPage />}
-              />
-              <Route exact path='*' element={<ErrorMessage />} />
+              <Route path='/' element={<MainPage />} />
+              <Route path='/comics' element={<ComicsPage />} />
+              <Route path='/comics/:comicId' element={<SingleComicsPage />} />
+              <Route path='*' element={<ErrorMessage />} />
             </Routes>
           </Suspense>
         </main>

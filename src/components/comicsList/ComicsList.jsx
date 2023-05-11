@@ -1,11 +1,11 @@
 import "./comicsList.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { Link } from "react-router-dom";
 import useMarvelService from "../../services/MarvelService";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
-const ComicsList = () => {
+const ComicsList = memo(() => {
   const [comicsList, setComicsList] = useState([]);
   const [newItemLoading, setNewItemLoading] = useState(false);
   const [offset, setOffset] = useState(0);
@@ -73,6 +73,6 @@ const ComicsList = () => {
       </button>
     </div>
   );
-};
+});
 
 export default ComicsList;

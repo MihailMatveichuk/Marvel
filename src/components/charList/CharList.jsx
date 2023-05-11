@@ -1,10 +1,10 @@
 import "./charList.scss";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 import useMarvelService from "../../services/MarvelService";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
-const CharList = ({ onCharSelected }) => {
+const CharList = memo(({ onCharSelected }) => {
   const [charList, setCharList] = useState([]);
   const [newItemLoading, setNewItemLoading] = useState(false);
   const [offset, setOffset] = useState(210);
@@ -98,6 +98,6 @@ const CharList = ({ onCharSelected }) => {
       </button>
     </div>
   );
-};
+});
 
 export default CharList;
